@@ -34,9 +34,4 @@ public class CamelMtericsConfig {
             }
         };
     }
-
-    @Bean
-    MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-        return registry -> registry.config().commonTags("application", "my-spring-boot-service");
-    }
 }

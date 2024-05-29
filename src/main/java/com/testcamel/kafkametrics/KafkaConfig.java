@@ -1,29 +1,39 @@
-//package com.testcamel.kafkametrics;
-//
-//import io.micrometer.core.instrument.MeterRegistry;
-//import org.apache.kafka.clients.consumer.ConsumerConfig;
-//import org.apache.kafka.clients.consumer.KafkaConsumer;
-//import org.apache.kafka.clients.producer.KafkaProducer;
-//import org.apache.kafka.clients.producer.ProducerConfig;
-//import org.apache.kafka.common.serialization.StringSerializer;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-//import org.springframework.kafka.config.KafkaListenerContainerFactory;
-//import org.springframework.kafka.core.*;
-//import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-//
-//import javax.management.Notification;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//@Configuration
-//public class KafkaConfig {
-//
-//    @Value("${spring.kafka.bootstrap-servers}")
-//    private String bootstrapServers;
-//
+package com.testcamel.kafkametrics;
+
+import io.micrometer.core.instrument.MeterRegistry;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.AdminClientConfig;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.core.*;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+
+import javax.management.Notification;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+@Configuration
+public class KafkaConfig {
+
+    @Value("${camel.component.kafka.brokers}")
+    private String bootstrapServers;
+
+    @Bean
+    public AdminClient adminClient() {
+        Properties props = new Properties();
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        return AdminClient.create(props);
+    }
+
 //    @Bean
 //    public ProducerFactory<String, Object> producerFactoryConfig() {
 //        var configProps = new java.util.HashMap<String, Object>();
@@ -53,4 +63,4 @@
 //    public KafkaTemplate<String, Object> kafkaTemplate() {
 //        return new KafkaTemplate<>(producerFactoryConfig());
 //    }
-//}
+}
